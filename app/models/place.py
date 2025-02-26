@@ -2,7 +2,7 @@ from datetime import datetime
 from base import Base
 from user import User
 
-class Place(Base, User):
+class Place(Base):
 
     def __init__(self, title: str, price: float, latitude: float, longitude: float, owner: User, description=None):
         super().__init__()
@@ -11,7 +11,7 @@ class Place(Base, User):
         self.price = price
         self.latitude = latitude
         self.longitude = longitude
-        self.owner = owner
+        self.owner = User
         self.reviews = []
         self.amenities = []
 

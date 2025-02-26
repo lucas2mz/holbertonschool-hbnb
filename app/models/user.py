@@ -17,7 +17,7 @@ class User(Base):
         return self._first_name
 
     @first_name.setter
-    def first_name_set(self, condition):
+    def first_name(self, condition):
         if not condition or len(condition) > 50:
             raise ValueError("First name is required and cannot exceed 50 characters")
         self._first_name = condition
@@ -27,7 +27,7 @@ class User(Base):
         return self._last_name
     
     @last_name.setter
-    def last_name_set(self, value):
+    def last_name(self, value):
         if not value or len(value) >= 50:
             raise ValueError("Last name is required and cannot exceed 50 characters")
         self._last_name = value
@@ -37,9 +37,9 @@ class User(Base):
         return self._email
     
     @email.setter
-    def email_verificator(self, value):
+    def email(self, value):
         try:
-             validate_email(value)
-             self._email = value
+             email_validation = validate_email(value, check_deliverability=False)
+             self._email = email_validation.normalized
         except EmailNotValidError as e:
-            raise EmailNotValidError("Invalid Email")
+            raise ValueError("Invalid email")
