@@ -8,17 +8,17 @@ hbnb/
 
 |── app/
 
-│   ├── __init__.py             # Inicialización del paquete `app`
+│    ├── __init__.py             # Inicialización del paquete `app`
 
-│   ├── api/
+│    ├── api/
 
-│   │   ├── __init__.py         # Inicialización del paquete `api`
+│    │    ├── __init__.py         # Inicialización del paquete `api`
 
-│   │   ├── v1/
+│    │     ├── v1/
 
-│   │       ├── __init__.py     # Inicialización de la versión 1 de la API
+│    │     ├── __init__.py     # Inicialización de la versión 1 de la API
 
-│   │       ├── users.py        # Endpoints relacionados con usuarios
+│    │     ├── users.py        # Endpoints relacionados con usuarios
 
 │   │       ├── places.py       # Endpoints relacionados con lugares
 
