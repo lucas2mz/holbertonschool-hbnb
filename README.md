@@ -2,7 +2,7 @@
 
 Este proyecto implementa la arquitectura de la aplicacion HBnB, estructurada en capas para garantizar modularidad, mantenimiento y escalabiidad. La aplicacion se basa en FLask para la API, un patron Facade para simplificar la comunicacion entre capas, y un sistema de almacenamiento que actualmente utiliza un repositiorio en memoria (proximamente este sera reemplazado por SQLAlchemy).
 
-📂 ## Estructura del Proyecto
+### 📂 Estructura del Proyecto
 
 hbnb/
 ├── app/
