@@ -4,6 +4,7 @@ Este proyecto implementa la arquitectura de la aplicacion HBnB, estructurada en 
 
 ### 📂 Estructura del Proyecto
 
+```
 hbnb/
 
 |── app/
@@ -57,7 +58,7 @@ hbnb/
 ├── requirements.txt             # Dependencias del proyecto
 
 ├── README.md                    # Documentación del proyecto
-
+```
 
 ### Arquitectura y Funcionalidades
 
