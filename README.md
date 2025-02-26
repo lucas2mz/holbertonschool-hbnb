@@ -7,7 +7,6 @@ Este proyecto implementa la arquitectura de la aplicacion HBnB, estructurada en 
 hbnb/
 
 |── app/
-
 │   ├── __init__.py             # Inicialización del paquete `app`
 │   ├── api/
 │   │   ├── __init__.py         # Inicialización del paquete `api`
