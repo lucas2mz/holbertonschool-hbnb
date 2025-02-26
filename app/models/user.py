@@ -42,4 +42,4 @@ class User(Base):
              validate_email(value)
              self.email = value
         except EmailNotValidError as e:
-            raise EmailNotValidError(f"Error: {e}")
+            raise EmailNotValidError("Invalid Email")
