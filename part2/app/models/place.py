@@ -1,6 +1,6 @@
 from datetime import datetime
-from base import Base
-from user import User
+from .base import Base
+from app.models.user import User
 
 class Place(Base):
 
@@ -11,7 +11,7 @@ class Place(Base):
         self.price = price
         self.latitude = latitude
         self.longitude = longitude
-        self.owner = User
+        self.owner = owner
         self.reviews = []
         self.amenities = []
 
@@ -20,7 +20,7 @@ class Place(Base):
         return self._title
     
     @title.setter
-    def title_set(self, value):
+    def title(self, value):
         if not value or len(value) > 100:
             raise ValueError("Title is required and cannot exceed 100 characters")
         self._title = value
@@ -30,7 +30,7 @@ class Place(Base):
         return self._price
     
     @price.setter
-    def price_set(self, value):
+    def price(self, value):
         if value <= 0:
             raise ValueError("Price must be a positive value")
         self._price = value
@@ -40,7 +40,7 @@ class Place(Base):
         return self._latitude
     
     @latitude.setter
-    def latitude_set(self, value):
+    def latitude(self, value):
         if not (-90.0 <= value <= 90.0):
             raise ValueError("Latitude must be within the range of -90.0 to 90.0")
         self._latitude = value
@@ -50,7 +50,7 @@ class Place(Base):
         return self._longitude
     
     @longitude.setter
-    def longitude_set(self, value):
+    def longitude(self, value):
         if not (-180.0 <= value <= 180.0):
             raise ValueError("Longitude must be within the range of -180.0 to 180.0")
         self._longitude = value
@@ -60,7 +60,7 @@ class Place(Base):
         return self._owner
     
     @owner.setter
-    def owner_set(self, value):
+    def owner(self, value):
         if not isinstance(value, User):
             raise ValueError("Owner must be a valid User")
         self._owner = value

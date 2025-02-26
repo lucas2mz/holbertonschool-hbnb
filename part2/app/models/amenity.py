@@ -1,5 +1,5 @@
 from datetime import datetime
-from base import Base
+from .base import Base
 
 class Amenity(Base):
 
@@ -12,7 +12,7 @@ class Amenity(Base):
         return self._name
     
     @name.setter
-    def name_set(self, value):
+    def name(self, value):
         if not value or len(value) > 50:
             raise ValueError("The name has to be less than 50 characters")
         self._name = value
