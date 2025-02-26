@@ -1,5 +1,5 @@
 from datetime import datetime
-from base import Base
+from .base import Base
 from email_validator import validate_email, EmailNotValidError
 
 
@@ -14,32 +14,32 @@ class User(Base):
 
     @property
     def first_name(self):
-        return self.first_name
+        return self._first_name
 
     @first_name.setter
     def first_name_set(self, condition):
         if not condition or len(condition) > 50:
             raise ValueError("First name is required and cannot exceed 50 characters")
-        self.first_name = condition
+        self._first_name = condition
 
     @property
     def last_name(self):
-        return self.last_name
+        return self._last_name
     
     @last_name.setter
     def last_name_set(self, value):
         if not value or len(value) >= 50:
             raise ValueError("Last name is required and cannot exceed 50 characters")
-        self.last_name = value
+        self._last_name = value
 
     @property
     def email(self):
-        return self.email
+        return self._email
     
     @email.setter
     def email_verificator(self, value):
         try:
              validate_email(value)
-             self.email = value
+             self._email = value
         except EmailNotValidError as e:
             raise EmailNotValidError("Invalid Email")
