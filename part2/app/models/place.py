@@ -2,6 +2,7 @@ from datetime import datetime
 from .base import Base
 from app.models.user import User
 
+
 class Place(Base):
 
     def __init__(self, title: str, price: float, latitude: float, longitude: float, owner: User, description=None):
