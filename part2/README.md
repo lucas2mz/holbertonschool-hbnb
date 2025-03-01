@@ -11,9 +11,9 @@ Este proyecto implementa la arquitectura de la aplicacion HBnB, estructurada en 
 hbnb/
   part2/
     |── app/
-    │    ├── __init__.py             # Inicialización del paquete `app`
+    │    ├── __init__.py              # Inicialización del paquete `app`
     │    ├── api/
-    │    │     ├── __init__.py         # Inicialización del paquete `api`
+    │    │     ├── __init__.py        # Inicialización del paquete `api`
     │    │     ├── v1/
     │    │        ├── __init__.py     # Inicialización de la versión 1 de la API
     │    │        ├── users.py        # Endpoints relacionados con usuarios
@@ -32,7 +32,7 @@ hbnb/
     │    ├── persistence/
     │        ├── __init__.py         # Inicialización del paquete `persistence`
     │        ├── repository.py       # Repositorio en memoria para gestión de datos (a reemplazar con SQLAlchemy)
-    ├── run.py                      # Script principal para ejecutar la aplicación Flask
+    ├── run.py                       # Script principal para ejecutar la aplicación Flask
     ├── config.py                    # Configuración general del proyecto
     ├── requirements.txt             # Dependencias del proyecto
     ├── README.md                    # Documentación del proyecto
@@ -47,12 +47,36 @@ Capa Persistence (persistence/): Maneja el almacenamiento de datos, actualmente 
 
 ### /PART2/
 
-- /APP: Contiene todos los subdirectorios y archivos para el funcionamiento de la applicacion
-  - /API: Contiene todos los enpoints
-  - /MODELS: Contiene todos los modelos del proyecto
-  - /PERSISTENCE: Contiene la gestion de datos (se reemplazara con SQLAlchemy)
-  - /SERVICES: Contiene la facade
-  - /TESTS: Contiene todos los tests
+- **/App: Contiene todos los subdirectorios y archivos para el funcionamiento de la aplicacion**
+  - **/Api: Contiene todos los enpoints**
+    - **/V1**
+      - `__init__.py`: kjbdsf
+      - `users.py`: fgdgf 
+      - `places.py`: dfg dfg 
+      - `reviews.py`: dfgdfg
+      - `amenities.py`: dfgdfg
+  - **/Models: Contiene todos los modelos del proyecto**
+    - `__init__.py`: fg
+    - `user.py`: dfg
+    - `place.py`: kdfg
+    - `review.py`: msdfg
+    - `amenity.py`: mdfg
+  - **/Services: Contiene la facade**
+    - `__init__.py`: dfg
+    - `facade.py`: bksjd
+  - **/Persistence: Contiene la gestion de datos (se reemplazara con SQLAlchemy)**
+    - `__init__.py`: nsdf
+    - `repository.py`: dgh
+  - **/Tests: Contiene todos los tests**
+    - `Test1.py`: g
+- `run.py`:
+- `config.py`:
+- `requirements.txt`:
+- `README.md`: 
+
+## Flowchart
+
+![IMAGE](https://i.imgur.com/W30YPxU.png)
 
 ## Authors
 
