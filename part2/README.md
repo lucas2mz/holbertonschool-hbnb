@@ -76,7 +76,7 @@ Capa Persistence (persistence/): Maneja el almacenamiento de datos, actualmente 
 
 ## Flowchart
 
-![IMAGE](https://i.imgur.com/W30YPxU.png)
+![IMAGE](https://i.imgur.com/7ch2DTL.png)
 
 ## Authors
 
