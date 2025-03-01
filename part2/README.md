@@ -1,11 +1,11 @@
 ![Logo del proyecto](https://i.imgur.com/2Pq8eWY.png)
 
 
-### Hbnb - Estructura del Proyecto
+# Hbnb - Estructura del Proyecto
 
 Este proyecto implementa la arquitectura de la aplicacion HBnB, estructurada en capas para garantizar modularidad, mantenimiento y escalabiidad. La aplicacion se basa en FLask para la API, un patron Facade para simplificar la comunicacion entre capas, y un sistema de almacenamiento que actualmente utiliza un repositiorio en memoria (proximamente este sera reemplazado por SQLAlchemy).
 
-### 📂 Estructura del Proyecto
+## 📂 Estructura del Proyecto
 
 ```
 hbnb/
@@ -38,7 +38,7 @@ hbnb/
     ├── README.md                    # Documentación del proyecto
 ```
 
-### Arquitectura y Funcionalidades
+## Arquitectura y Funcionalidades
 
 Capa de Presentacion(api/): Define los endpoints de la API con Flask.
 Capa BusinessLogic(services/): implementa reglas utilizando el patron Facade.
@@ -50,6 +50,6 @@ Capa Persistence (persistence/): Maneja el almacenamiento de datos, actualmente 
 
 ## Authors
 
-This project was co-authored by Lucas Andrada and Federico Angeriz. Cohort 25
+This project was co-authored by Lucas Andrada and Federico Angeriz. Cohort 25 ![GIF animado](https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExdWJ1dG0xNGp5cHcxNWVlaXdyeTY2OGJycGhiZHA0OWlucTlyeXU2YSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/V6FfiRnRLpF0uarooy/giphy.gif)
 
-![GIF animado](https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExdWJ1dG0xNGp5cHcxNWVlaXdyeTY2OGJycGhiZHA0OWlucTlyeXU2YSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/V6FfiRnRLpF0uarooy/giphy.gif)
+
