@@ -1,4 +1,4 @@
-![Logo del proyecto]()
+![Logo del proyecto](https://i.imgur.com/2Pq8eWY.png)
 
 
 ### Hbnb - Estructura del Proyecto
