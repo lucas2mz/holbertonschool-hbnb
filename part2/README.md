@@ -47,12 +47,12 @@ Capa Persistence (persistence/): Maneja el almacenamiento de datos, actualmente 
 
 ### /PART2/
 
--/APP: Contiene todos los subdirectorios y archivos para el funcionamiento de la applicacion
-      -/API: Contiene todos los enpoints
-      -/MODELS: Contiene todos los modelos del proyecto
-      -/PERSISTENCE: Contiene la gestion de datos (se reemplazara con SQLAlchemy)
-      -/SERVICES: Contiene la facade
-      -/TESTS: Contiene todos los tests
+- /APP: Contiene todos los subdirectorios y archivos para el funcionamiento de la applicacion
+      - /API: Contiene todos los enpoints
+      - /MODELS: Contiene todos los modelos del proyecto
+      - /PERSISTENCE: Contiene la gestion de datos (se reemplazara con SQLAlchemy)
+      - /SERVICES: Contiene la facade
+      - /TESTS: Contiene todos los tests
 
 ## Authors
 
