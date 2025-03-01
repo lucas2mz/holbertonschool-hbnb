@@ -24,7 +24,7 @@ class Review(Base):
     
     @property
     def rating(self):
-        return self._reating
+        return self._rating
     
     @rating.setter
     def rating(self, value):

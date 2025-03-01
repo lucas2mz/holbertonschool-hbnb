@@ -70,7 +70,7 @@ class HBnBFacade:
         return self.review_repo.get(review_id)
 
     def get_all_reviews(self):
-        return self.review_repo.get_all_reviews()
+        return self.review_repo.get_all()
 
     def get_reviews_by_place(self, place_id):
         pass
