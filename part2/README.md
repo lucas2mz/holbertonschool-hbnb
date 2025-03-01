@@ -45,10 +45,10 @@ Capa BusinessLogic(services/): implementa reglas utilizando el patron Facade.
 Capa Persistence (persistence/): Maneja el almacenamiento de datos, actualmente en memoria, ya que sera cambiado por SQLAlchemy.
 
 
-## /APP/
+### /APP/
 
 
-### Authors
+## Authors
 
 This project was co-authored by Lucas Andrada and Federico Angeriz. Cohort 25
 
