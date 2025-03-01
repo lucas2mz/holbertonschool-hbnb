@@ -46,3 +46,10 @@ Capa Persistence (persistence/): Maneja el almacenamiento de datos, actualmente 
 
 
 ## /APP/
+
+
+### Authors
+
+This project was co-authored by Lucas Andrada and Federico Angeriz. Cohort 25
+
+![GIF animado](https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExdWJ1dG0xNGp5cHcxNWVlaXdyeTY2OGJycGhiZHA0OWlucTlyeXU2YSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/V6FfiRnRLpF0uarooy/giphy.gif)
