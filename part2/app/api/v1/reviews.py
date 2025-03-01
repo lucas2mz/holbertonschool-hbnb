@@ -61,7 +61,6 @@ class ReviewResource(Resource):
     @api.response(400, 'Invalid input data')
     def put(self, review_id):
         """Update a review's information"""
-        # Placeholder for the logic to update a review by ID
         pass
 
     @api.response(200, 'Review deleted successfully')
