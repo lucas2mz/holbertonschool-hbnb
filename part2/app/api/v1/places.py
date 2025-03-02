@@ -54,7 +54,7 @@ class PlaceList(Resource):
         owner = facade.get_user(place_data['owner_id'])
 
         if not owner:
-            return {"error": "Owner not found"}, 404
+            return {"error": "Invalid input data"}, 400
         
         place_data.pop('owner_id')
 
