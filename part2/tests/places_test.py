@@ -8,15 +8,18 @@ class TestPlacesEndpoints(unittest.TestCase):
         self.client = self.app.test_client()
 
     def test_create_place(self): # Test Success request
+        owner_id = self.test_create_user() # Crea una ID para el owner
         response = self.client.post('/api/v1/places/', json={
             "title": "Cozy Apartment",
             "description": "A nice place to stay",
             "price": 100.0,
             "latitude": 37.7749,
             "longitude": -122.4194,
-            "owner_id": f"{owner_id}" #Falta agregar owner_id
+            "owner_id": f"{owner_id}"
         })
         self.assertEqual(response.status_code, 201)
+        self.assertIn("id", response.json)
+        return response.json["id"]
     
     def test_create_place_invalid_data(self): # Test Bad Request
         response = self.client.post('/api/v1/places/', json={
@@ -35,7 +38,8 @@ class TestPlacesEndpoints(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
     
     def test_get_place_details(self): # Terminar (falta manejar error 404)
-        response = self.client.get(f'/api/v1/places/{place_id}') # Agregar place id
+        place_id = self.test_create_place()
+        response = self.client.get(f'/api/v1/places/{place_id}')
         self.assertIn(response.status_code, [200, 404])
         if response.status_code == 200:
             places = response.json
@@ -51,21 +55,23 @@ class TestPlacesEndpoints(unittest.TestCase):
                     self.assertIn("amenities", place) # Corregir
 
     def test_update_place(self): # Test Success request
-        response = self.client.put(f'/api/v1/places/{place_id}', json={ # Agregar place id
+        place_id = self.test_create_place()
+        response = self.client.put(f'/api/v1/places/{place_id}', json={
             "title": "Luxury Condo",
             "description": "An upscale place to stay",
             "price": 200.0
         })
         self.assertEqual(response.status_code, 200)
 
-        response = self.client.put(f'/api/v1/places/{place_id}', json={ # Agregar place id
+        response = self.client.put(f'/api/v1/places/{place_id}', json={
             "title": "",
             "description": "",
             "price": -200.0
         })
         self.assertEqual(response.status_code, 400)
 
-        response = self.client.put(f'/api/v1/places/{place_id}', json={ # Agregar place id invalida
+        invalid_place_id = str(uuid.uuid4())
+        response = self.client.put(f'/api/v1/places/{invalid_place_id}', json={
             "title": "Luxury Condo",
             "description": "An upscale place to stay",
             "price": 200.0

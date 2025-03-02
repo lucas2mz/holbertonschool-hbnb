@@ -37,7 +37,11 @@ class ReviewList(Resource):
         review_data['user'] = user
         review_data['place'] = place
 
-        new_review = facade.create_review(review_data)
+        try:
+            new_review = facade.create_review(review_data)
+        except ValueError:
+            return {'error': 'Invalid input data'}, 400
+
         return {'id': new_review.id, 'text': new_review.text, 'rating': new_review.rating, 'user_id': user.id, 'place': place.id}, 201
 
     @api.response(200, 'List of reviews retrieved successfully')
@@ -68,10 +72,11 @@ class ReviewResource(Resource):
         review = facade.review_repo.get(review_id)
         if not review:
             return {'Error': 'Review not found'}, 404
-        
-        update_review = facade.update_review(review_id, data)
-        if not update_review:
-            return {"error": "Review updated fail"}, 404
+        try:
+            update_review = facade.update_review(review_id, data)
+        except ValueError:
+            return {'error': 'Invalid input data'}, 400
+    
         return {"message": "Review updated successfully"}, 200
 
     @api.response(200, 'Review deleted successfully')

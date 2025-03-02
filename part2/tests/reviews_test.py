@@ -1,20 +1,23 @@
 import unittest
 from app import create_app
 
-class TestUserEndpoints(unittest.TestCase):
+class TestReviewsEndpoints(unittest.TestCase):
 
     def setUp(self):
         self.app = create_app()
         self.client = self.app.test_client()
 
     def test_create_review(self):
+        user_id = self.test_create_user()
+        place_id = self.test_create_place()
         response = self.client.post('/api/v1/reviews', json={
             "text": "Great place to stay!",
             "rating": 5,
-            "user_id": "", # Agregar User ID
-            "place_id": "" # Agregar Place ID
+            "user_id": f"{user_id}",
+            "place_id": f"{place_id}"
         })
         self.assertEqual(response.status_code, 201)
+
 
     def test_create_review_invalid_data(self):
         response = self.client.post('/api/v1/reviews', json={

@@ -59,8 +59,10 @@ class PlaceList(Resource):
         place_data.pop('owner_id')
 
         place_data['owner'] = owner
-        
-        place_n = facade.create_place(place_data)
+        try:
+            place_n = facade.create_place(place_data)
+        except ValueError:
+            return {'error': 'Invalid input data'}, 400
         return {'id': place_n.id, 'title': place_n.title, 'description': place_n.description, 'price': place_n.price, 'latitude': place_n.latitude, 'longitude': place_n.longitude, 'owner_id': place_n.owner.id}, 201
 
     @api.response(200, 'List of places retrieved successfully')
@@ -113,12 +115,12 @@ class PlaceResource(Resource):
         """Update a place's information"""
         data = api.payload
 
-        place = facade.place_repo.get(place_id)
+        place = facade.get_place(place_id)
         if not place:
             return {"error": "Place not found"}, 404
-        
-        updated_place = facade.update_place(place_id, data)
-        if not updated_place:
-            return {"error": "Place updated fail"}, 400
+        try:
+            updated_place = facade.update_place(place_id, data)
+        except ValueError:
+            return {'error': 'Invalid input data'}, 400
 
         return {"message": "Place updated successfully"}, 200
