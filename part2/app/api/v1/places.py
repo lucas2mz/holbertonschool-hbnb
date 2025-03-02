@@ -119,5 +119,6 @@ class PlaceResource(Resource):
         
         updated_place = facade.update_place(place_id, data)
         if not updated_place:
-            return {"error": "Place updated fail"}, 404
+            return {"error": "Place updated fail"}, 400
+
         return {"message": "Place updated successfully"}, 200
