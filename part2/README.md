@@ -32,6 +32,8 @@ hbnb/
     │    ├── persistence/
     │        ├── __init__.py         # Inicialización del paquete `persistence`
     │        ├── repository.py       # Repositorio en memoria para gestión de datos (a reemplazar con SQLAlchemy)
+    ├── tests
+            ├── 
     ├── run.py                       # Script principal para ejecutar la aplicación Flask
     ├── config.py                    # Configuración general del proyecto
     ├── requirements.txt             # Dependencias del proyecto
@@ -205,4 +207,4 @@ A medida que avancemos en el proyecto, se va a corregir errores menores y se mej
 
 ## Authors
 
-This project was co-authored by Lucas Andrada and Federico Angeriz. Cohort 25 ![GIF animado](https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExdWJ1dG0xNGp5cHcxNWVlaXdyeTY2OGJycGhiZHA0OWlucTlyeXU2YSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/V6FfiRnRLpF0uarooy/giphy.gif)
+This project was co-authored by Lucas Andrada (@lucas2mz) and Federico Angeriz (@FedeAngeriz). Cohort 25 ![GIF animado](https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExdWJ1dG0xNGp5cHcxNWVlaXdyeTY2OGJycGhiZHA0OWlucTlyeXU2YSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/V6FfiRnRLpF0uarooy/giphy.gif)
