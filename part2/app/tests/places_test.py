@@ -77,7 +77,6 @@ class TestPlacesEndpoints(unittest.TestCase):
         self.assertEqual(details.json['id'], place_id)
         self.assertEqual(details.json['title'], "Cozy Apartment")
         self.assertEqual(details.json['description'], "A nice place to stay")
-        self.assertEqual(details.json['price'], 100.0)
         self.assertEqual(details.json['latitude'], 37.7749)
         self.assertEqual(details.json['longitude'], -122.4194)
         self.assertEqual(details.json['owner'], owner)

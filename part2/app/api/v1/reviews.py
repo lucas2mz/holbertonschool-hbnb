@@ -59,7 +59,7 @@ class ReviewResource(Resource):
         review = facade.get_review(review_id)
         if not review:
             return {'Error': 'Review not found'}, 404
-        return {'id': review.id, 'text': review.text, 'rating': review.rating, 'user_id': review.user.id, 'place': review.place.id}, 201
+        return {'id': review.id, 'text': review.text, 'rating': review.rating, 'user_id': review.user.id, 'place': review.place.id}, 200
 
     @api.expect(review_model)
     @api.response(200, 'Review updated successfully')

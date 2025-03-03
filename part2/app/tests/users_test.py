@@ -35,7 +35,7 @@ class TestUserEndpoints(unittest.TestCase):
         usuario = self.client.post('/api/v1/users/', json={
             "first_name": "Jane",
             "last_name": "Doe",
-            "email": "jane.doe@example.com"
+            "email": "jane2.doe@example.com"
         })
 
         # Obtenemos user ID
@@ -48,7 +48,7 @@ class TestUserEndpoints(unittest.TestCase):
 
         response_user = response.json
         self.assertEqual(response_user['id'], user_id)
-        self.assertEqual(response_user['email'], "jane.doe@example.com")
+        self.assertEqual(response_user['email'], "jane2.doe@example.com")
         self.assertEqual(response_user['first_name'], "Jane")
         self.assertEqual(response_user['last_name'], "Doe")
 
@@ -61,7 +61,7 @@ class TestUserEndpoints(unittest.TestCase):
         response = self.client.post('/api/v1/users/', json={
             "first_name": "Jane",
             "last_name": "Doe",
-            "email": "jane.doe@example.com"
+            "email": "jane3.doe@example.com"
         })
 
         user = response.json
@@ -85,7 +85,7 @@ class TestUserEndpoints(unittest.TestCase):
         not_found = self.client.put(f'/api/v1/users/96796', json={ 
             "first_name": "John",
             "last_name": "Doe",
-            "email": "john.doe@example.com"
+            "email": "john2.doe@example.com"
         })
         self.assertEqual(not_found.status_code, 404)
 

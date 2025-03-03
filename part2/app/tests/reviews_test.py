@@ -9,26 +9,18 @@ class TestReviewsEndpoints(unittest.TestCase):
         self.app_context = self.app.app_context()
         self.app_context.push()
         self.client = self.app.test_client()
-        self.user_id, self.place_id = self.create_user_and_place()
 
-    def create_user_and_place(self):
-        emails = {
-            "jone@gmial.com",
-            "johan@example.com",
-            "fede@gmail.com",
-            "lucas@gmail.com",
-            "lucasyfede@gmail.com"
-        }
-        for email in emails:
-            usuario = self.client.post('/api/v1/users/', json={
-                "first_name": "Jane",
-                "last_name": "Doe",
-                "email": email
-            })
+    def test_create_review(self):
+        usuario = self.client.post('/api/v1/users/', json={
+            "first_name": "Jane",
+            "last_name": "Doe",
+            "email": "jone@gmail.com"
+        })
 
         owner = usuario.json
         self.assertIn('id', owner)
         owner_id = owner['id']
+        user_id = owner_id
 
         place = self.client.post('/api/v1/places/', json={
             "title": "Cozy Apartment",
@@ -39,43 +31,87 @@ class TestReviewsEndpoints(unittest.TestCase):
             "owner_id": f"{owner_id}"
         })
 
-        if usuario.status_code == 201 and place.status_code == 201:
-            return usuario.json["id"], place.json["id"]
-        else:
-            return {"Invalid data"}
+        place = place.json
+        self.assertIn('id', place)
+        place_id = place['id']
 
-    def test_create_review(self):
-        self.create_user_and_place()
         review = self.client.post('/api/v1/reviews/', json={
             "text": "Great place to stay!",
             "rating": 5,
-            "user_id": self.user_id,
-            "place_id": self.place_id
+            "user_id": user_id,
+            "place_id": place_id
         })
         self.assertEqual(review.status_code, 201)
 
 
     def test_create_review_invalid_data(self):
+        usuario = self.client.post('/api/v1/users/', json={
+            "first_name": "Jane",
+            "last_name": "Doe",
+            "email": "jone25@gmail.com"
+        })
+
+        owner = usuario.json
+        self.assertIn('id', owner)
+        owner_id = owner['id']
+        user_id = owner_id
+
+        place = self.client.post('/api/v1/places/', json={
+            "title": "Cozya House",
+            "description": "A nice place to stay",
+            "price": 132.0,
+            "latitude": 32.7749,
+            "longitude": -112.4194,
+            "owner_id": f"{owner_id}"
+        })
+
+        place = place.json
+        self.assertIn('id', place)
+        place_id = place['id']
+
         response = self.client.post('/api/v1/reviews/', json={
             "text": "",
             "rating": -3,
-            "user_id": "",
-            "place_id": ""
+            "user_id": user_id,
+            "place_id": place_id
         })
         self.assertEqual(response.status_code, 400)
     
     def test_list_all_reviews(self):
         response = self.client.get('/api/v1/reviews/')
-        self.IsInstance(response.json, list)
+        self.assertIsInstance(response.json, list)
         self.assertEqual(response.status_code, 200)
 
     def test_delete_review(self):
-        self.create_user_and_place()
+        usuario = self.client.post('/api/v1/users/', json={
+            "first_name": "Jane",
+            "last_name": "Doe",
+            "email": "jone2@gmail.com"
+        })
+
+        owner = usuario.json
+        self.assertIn('id', owner)
+        owner_id = owner['id']
+        user_id = owner_id
+
+        place = self.client.post('/api/v1/places/', json={
+            "title": "Cozy House",
+            "description": "A nice place to stay",
+            "price": 102.0,
+            "latitude": 32.7749,
+            "longitude": -112.4194,
+            "owner_id": f"{owner_id}"
+        })
+
+        place = place.json
+        self.assertIn('id', place)
+        place_id = place['id']
+    
         review = self.client.post('/api/v1/reviews/', json={
             "text": "Good place to stay!",
             "rating": 4,
-            "user_id": self.user_id,
-            "place_id": self.place_id
+            "user_id": user_id,
+            "place_id": place_id
         })
 
         review = review.json
@@ -83,18 +119,40 @@ class TestReviewsEndpoints(unittest.TestCase):
         review_id = review['id']
 
         delete_review = self.client.delete(f'/api/v1/reviews/{review_id}')
-        self.assertEqual(delete.status_code, 200)
+        self.assertEqual(delete_review.status_code, 200)
 
         error_review = self.client.get(f'/api/v1/reviews/{review_id}')
         self.assertEqual(error_review.status_code, 404)
 
     def test_update_review(self):
-        self.create_user_and_place()
+        usuario = self.client.post('/api/v1/users/', json={
+            "first_name": "Jane",
+            "last_name": "Doe",
+            "email": "jone56@gmail.com"
+        })
+
+        owner = usuario.json
+        self.assertIn('id', owner)
+        owner_id = owner['id']
+        user_id = owner_id
+
+        place = self.client.post('/api/v1/places/', json={
+            "title": "Cozy HH",
+            "description": "A nice place to stay",
+            "price": 122.0,
+            "latitude": 32.7749,
+            "longitude": -112.4194,
+            "owner_id": f"{owner_id}"
+        })
+
+        place = place.json
+        self.assertIn('id', place)
+        place_id = place['id']
         review = self.client.post('/api/v1/reviews/', json={
             "text": "Bad place to stay!",
             "rating": 1,
-            "user_id": self.user_id,
-            "place_id": self.place_id
+            "user_id": user_id,
+            "place_id": place_id
         })
 
         review = review.json
@@ -113,19 +171,42 @@ class TestReviewsEndpoints(unittest.TestCase):
         })
         self.assertEqual(response.status_code, 400)
 
-        response = self.client.put(f'/api/v1/reviews/{review_id}', json={
-            "text": "",
-            "rating": -4
+        response = self.client.put(f'/api/v1/reviews/jbsd', json={
+            "text": "Nice",
+            "rating": 4
         })
         self.assertEqual(response.status_code, 404)
     
     def test_get_review_details(self):
-        self.create_user_and_place()
+        usuario = self.client.post('/api/v1/users/', json={
+            "first_name": "Jane",
+            "last_name": "Doe",
+            "email": "jone3@gmail.com"
+        })
+
+        owner = usuario.json
+        self.assertIn('id', owner)
+        owner_id = owner['id']
+        user_id = owner_id
+
+        place = self.client.post('/api/v1/places/', json={
+            "title": "Cozy Depa",
+            "description": "A nice place to stay",
+            "price": 110.0,
+            "latitude": 32.7749,
+            "longitude": -112.4194,
+            "owner_id": f"{owner_id}"
+        })
+
+        place = place.json
+        self.assertIn('id', place)
+        place_id = place['id']
+
         review = self.client.post('/api/v1/reviews/', json={
             "text": "Great place to stay!",
             "rating": 3,
-            "user_id": self.user_id,
-            "place_id": self.place_id
+            "user_id": user_id,
+            "place_id": place_id
         })
 
         review = review.json
@@ -135,22 +216,45 @@ class TestReviewsEndpoints(unittest.TestCase):
         review_details = self.client.get(f'/api/v1/reviews/{review_id}')
         self.assertEqual(review_details.status_code, 200)
 
-        self.assertEqual(place_details['id'], review_id)
-        self.assertEqual(place_details['text'], "Good place to stay!")
-        self.assertEqual(place_details['rating'], 4)
-        self.assertEqual(place_details['user_id'], self.user_id)
-        self.assertEqual(place_details['place_id'], self.place_id)
+        self.assertEqual(review_details.json['id'], review_id)
+        self.assertEqual(review_details.json['text'], "Great place to stay!")
+        self.assertEqual(review_details.json['rating'], 3)
+        self.assertEqual(review_details.json['user_id'], user_id)
+        self.assertEqual(review_details.json['place_id'], place_id)
 
     def test_list_of_reviews_by_place(self):
-        self.create_user_and_place()
+        usuario = self.client.post('/api/v1/users/', json={
+            "first_name": "Jane",
+            "last_name": "Doe",
+            "email": "jone4@gmail.com"
+        })
+
+        owner = usuario.json
+        self.assertIn('id', owner)
+        owner_id = owner['id']
+        user_id = owner_id
+
+        place = self.client.post('/api/v1/places/', json={
+            "title": "Cozy Yate",
+            "description": "A nice place to stay",
+            "price": 132.0,
+            "latitude": 42.7749,
+            "longitude": -112.4194,
+            "owner_id": f"{owner_id}"
+        })
+
+        place = place.json
+        self.assertIn('id', place)
+        place_id = place['id']
+
         review = self.client.post('/api/v1/reviews/', json={
             "text": "Pretty place to stay!",
             "rating": 4,
-            "user_id": self.user_id,
-            "place_id": self.place_id
+            "user_id": user_id,
+            "place_id": place_id
         })
         
-        response = self.client.get(f'/api/v1/reviews/places/{self.place_id}/reviews')
+        response = self.client.get(f'/api/v1/reviews/places/{place_id}/reviews')
         self.assertEqual(response.status_code, 200)
         self.assertIsInstance(response.json, list)
 
