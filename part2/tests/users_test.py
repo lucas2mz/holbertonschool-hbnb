@@ -1,10 +1,13 @@
 import unittest
 from app import create_app
 
+
 class TestUserEndpoints(unittest.TestCase):
 
     def setUp(self):
         self.app = create_app()
+        self.app_context = self.app.app_context()
+        self.app_context.push()
         self.client = self.app.test_client()
 
     def test_create_user(self):
@@ -29,7 +32,7 @@ class TestUserEndpoints(unittest.TestCase):
         self.assertIsInstance(response.json, list)
         
     def test_get_user_by_id(self):
-        usuario = self.client.post('api/v1/users/', json={
+        usuario = self.client.post('/api/v1/users/', json={
             "first_name": "Jane",
             "last_name": "Doe",
             "email": "jane.doe@example.com"
@@ -41,7 +44,7 @@ class TestUserEndpoints(unittest.TestCase):
         user_id = user['id']
 
         response = self.client.get(f'/api/v1/users/{user_id}')
-        self.assertEqual(response2.status_code, 200)
+        self.assertEqual(response.status_code, 200)
 
         response_user = response.json
         self.assertEqual(response_user['id'], user_id)
@@ -55,7 +58,7 @@ class TestUserEndpoints(unittest.TestCase):
 
     def test_update_user(self):
 
-        response = self.client.post('api/v1/users/', json={
+        response = self.client.post('/api/v1/users/', json={
             "first_name": "Jane",
             "last_name": "Doe",
             "email": "jane.doe@example.com"
@@ -70,7 +73,7 @@ class TestUserEndpoints(unittest.TestCase):
             "last_name": "Doe",
             "email": "john.doe@example.com"
         })
-        self.assertEqual(updated.status_code, 200)
+        self.assertEqual(Updated.status_code, 200)
         
         no_Updated = self.client.put(f'/api/v1/users/{user_id}', json={
             "first_name": "",

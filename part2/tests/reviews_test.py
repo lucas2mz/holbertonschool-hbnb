@@ -1,10 +1,13 @@
 import unittest
 from app import create_app
 
+
 class TestReviewsEndpoints(unittest.TestCase):
 
     def setUp(self):
         self.app = create_app()
+        self.app_context = self.app.app_context()
+        self.app_context.push()
         self.client = self.app.test_client()
         self.user_id, self.place_id = self.create_user_and_place()
 
