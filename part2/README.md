@@ -79,15 +79,15 @@ Capa Persistence (persistence/): Maneja el almacenamiento de datos, actualmente 
 ![IMAGE](https://i.imgur.com/7ch2DTL.png)
 
 
-## Tests
+# Tests
 
-# Pruebas para Endpoints de la API
+## Pruebas para Endpoints de la API
 
 **Descripcion**
 
 En este apartado se registran las pruebass realizadas en los endpoints de la API, incluyendo Usuaris, Places, Reviews, Amenities. Se incluyen tambien los test finales probados, datos de entrada, resultados esperados, resultados actuales y cualquier otro error dado por la misma.
 
-# 1. Pruebas de Endopoints de Usuarios
+### 1. Pruebas de Endopoints de Usuarios
 
 **Puntos finales probados**
 
@@ -115,7 +115,7 @@ En este apartado se registran las pruebass realizadas en los endpoints de la API
    - Resultado Esperado: Codigo de estado 404 (No encontrado)
    - Resultado Actual: Codigo de estado 404 (No encontrado)
 
-# 2. Pruebas de Endpoints de Places
+### 2. Pruebas de Endpoints de Places
 
 **Puntos finales probados**
 
@@ -142,7 +142,7 @@ En este apartado se registran las pruebass realizadas en los endpoints de la API
    - Resultado Actual: Codigo de estado 201 (Creado)
 
 
-# 3. Pruebas de Endpoints de Reviews
+### 3. Pruebas de Endpoints de Reviews
 
 **Puntos finales probados**
 
@@ -172,7 +172,7 @@ En este apartado se registran las pruebass realizadas en los endpoints de la API
    - Resultado Actual: Codigo de estado 404 (No encontrado)
 
 
-# 4. Pruebas de Endpoints de Amenities
+### 4. Pruebas de Endpoints de Amenities
 
 **Puntos Finales Probados**
 
