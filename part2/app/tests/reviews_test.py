@@ -12,11 +12,19 @@ class TestReviewsEndpoints(unittest.TestCase):
         self.user_id, self.place_id = self.create_user_and_place()
 
     def create_user_and_place(self):
-        usuario = self.client.post('/api/v1/users/', json={
-            "first_name": "Jane",
-            "last_name": "Doe",
-            "email": "jane.doe@example.com"
-        })
+        emails = {
+            "jone@gmial.com",
+            "johan@example.com",
+            "fede@gmail.com",
+            "lucas@gmail.com",
+            "lucasyfede@gmail.com"
+        }
+        for email in emails:
+            usuario = self.client.post('/api/v1/users/', json={
+                "first_name": "Jane",
+                "last_name": "Doe",
+                "email": email
+            })
 
         owner = usuario.json
         self.assertIn('id', owner)

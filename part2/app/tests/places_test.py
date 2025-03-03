@@ -44,14 +44,14 @@ class TestPlacesEndpoints(unittest.TestCase):
     
     def test_list_all_places(self): # Test list all places
         response = self.client.get('/api/v1/places')
-        self.IsInstance(response.json, list)
+        self.assertIsInstance(response.json, list)
         self.assertEqual(response.status_code, 200)
     
     def test_get_place_details(self): # Terminar (falta manejar error 404)
         usuario = self.client.post('/api/v1/users/', json={
             "first_name": "Jane",
             "last_name": "Doe",
-            "email": "jane.doe@example.com"
+            "email": "jane2.doe@example.com"
         })
 
         owner = usuario.json
@@ -74,19 +74,19 @@ class TestPlacesEndpoints(unittest.TestCase):
         details = self.client.get(f'/api/v1/places/{place_id}')
         self.assertEqual(details.status_code, 200)
 
-        self.assertEqual(place_details['id'], place_id)
-        self.assertEqual(place_details['title'], "Cozy Apartment")
-        self.assertEqual(place_details['description'], "A nice place to stay")
-        self.assertEqual(place_details['price'], 100.0)
-        self.assertEqual(place_details['latitude'], 37.7749)
-        self.assertEqual(place_details['longitude'], -122.4194)
-        self.assertEqual(place_details['owner'], owner)
+        self.assertEqual(details.json['id'], place_id)
+        self.assertEqual(details.json['title'], "Cozy Apartment")
+        self.assertEqual(details.json['description'], "A nice place to stay")
+        self.assertEqual(details.json['price'], 100.0)
+        self.assertEqual(details.json['latitude'], 37.7749)
+        self.assertEqual(details.json['longitude'], -122.4194)
+        self.assertEqual(details.json['owner'], owner)
 
     def test_update_place(self): # Test Success request
         usuario = self.client.post('/api/v1/users/', json={
             "first_name": "Jane",
             "last_name": "Doe",
-            "email": "jane.doe@example.com"
+            "email": "jane3.doe@example.com"
         })
 
         owner = usuario.json
@@ -111,7 +111,7 @@ class TestPlacesEndpoints(unittest.TestCase):
             "description": "An upscale place to stay",
             "price": 200.0
         })
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(update.status_code, 200)
 
         response = self.client.put(f'/api/v1/places/{place_id}', json={
             "title": "",
@@ -120,12 +120,12 @@ class TestPlacesEndpoints(unittest.TestCase):
         })
         self.assertEqual(response.status_code, 400)
 
-        response = self.client.put('/api/v1/places/789342', json={
+        response2 = self.client.put('/api/v1/places/789342', json={
             "title": "Luxury Condo",
             "description": "An upscale place to stay",
             "price": 200.0
         })
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response2.status_code, 404)
 
 
 if __name__ == '__main__': 
