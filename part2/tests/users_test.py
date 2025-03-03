@@ -29,25 +29,25 @@ class TestUserEndpoints(unittest.TestCase):
         self.assertIsInstance(response.json, list)
         
     def test_get_user_by_id(self):
-        response = self.client.post('api/v1/users', json={
+        usuario = self.client.post('api/v1/users/', json={
             "first_name": "Jane",
             "last_name": "Doe",
             "email": "jane.doe@example.com"
         })
 
         # Obtenemos user ID
-        user = response.json
+        user = usuario.json
         self.assertIn('id', user)
         user_id = user['id']
 
-        response2 = self.client.get(f'/api/v1/users/{user_id}')
+        response = self.client.get(f'/api/v1/users/{user_id}')
         self.assertEqual(response2.status_code, 200)
 
-        response2_user = response2.json
-        self.assertEqual(response2_user['id'], user_id)
-        self.assertEqual(response2_user['email'], "jane.doe@example.com")
-        self.assertEqual(response2_user['first_name'], "Jane")
-        self.assertEqual(response2_user['last_name'], "Doe")
+        response_user = response.json
+        self.assertEqual(response_user['id'], user_id)
+        self.assertEqual(response_user['email'], "jane.doe@example.com")
+        self.assertEqual(response_user['first_name'], "Jane")
+        self.assertEqual(response_user['last_name'], "Doe")
 
     def test_get_user_by_id_not_found(self):
         response = self.client.get(f'/api/v1/users/8989789345')
@@ -55,36 +55,36 @@ class TestUserEndpoints(unittest.TestCase):
 
     def test_update_user(self):
 
-        re = self.client.post('api/v1/users', json={
+        response = self.client.post('api/v1/users/', json={
             "first_name": "Jane",
             "last_name": "Doe",
             "email": "jane.doe@example.com"
         })
 
-        user = re.json
+        user = response.json
         self.assertIn('id', user)
         user_id = user['id']
 
-        response = self.client.put(f'/api/v1/users/{user_id}', json={
+        Updated = self.client.put(f'/api/v1/users/{user_id}', json={
             "first_name": "John",
             "last_name": "Doe",
             "email": "john.doe@example.com"
         })
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(updated.status_code, 200)
         
-        respuesta = self.client.put(f'/api/v1/users/{user_id}', json={
+        no_Updated = self.client.put(f'/api/v1/users/{user_id}', json={
             "first_name": "",
             "last_name": "",
             "email": "Invalid-Email"
         })
-        self.assertEqual(respuesta.status_code, 400)
+        self.assertEqual(no_Updated.status_code, 400)
 
-        response = self.client.put(f'/api/v1/users/96796', json={ 
+        not_found = self.client.put(f'/api/v1/users/96796', json={ 
             "first_name": "John",
             "last_name": "Doe",
             "email": "john.doe@example.com"
         })
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(not_found.status_code, 404)
 
 
 if __name__ == '__main__': 

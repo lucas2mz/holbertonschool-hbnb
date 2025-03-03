@@ -28,7 +28,6 @@ class TestAmenityEndpoints(unittest.TestCase):
         response = self.client.post('api/v1/amenities/', json={
             "name": "Wifi"
         })
-        # Obtenemos user ID
         amenity = response.json
         self.assertIn('id', amenity)
         amenity_id = amenity['id']
@@ -47,28 +46,28 @@ class TestAmenityEndpoints(unittest.TestCase):
 
     def test_update_amenities(self):
 
-        re = self.client.post('api/v1/amenities', json={
+        response = self.client.post('api/v1/amenities', json={
             "name": "Wifi"
         })
 
-        amenity = re.json
+        amenity = response.json
         self.assertIn('id', amenity)
         amenity_id = amenity['id']
 
-        response = self.client.put(f'/api/v1/amenities/{amenity_id}', json={
+        Updated = self.client.put(f'/api/v1/amenities/{amenity_id}', json={
             "name": "Pool"
         })
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(Updated.status_code, 200)
         
-        respuesta = self.client.put(f'/api/v1/amenities/{amenity_id}', json={
+        Invalid_update = self.client.put(f'/api/v1/amenities/{amenity_id}', json={
             "name": ""
         })
-        self.assertEqual(respuesta.status_code, 400)
+        self.assertEqual(Invalid_update.status_code, 400)
 
-        response = self.client.put(f'/api/v1/amenities/896796', json={ 
+        error_update = self.client.put(f'/api/v1/amenities/896796', json={ 
             "name": "Wifi"
         })
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(error_update.status_code, 404)
 
 
 if __name__ == '__main__': 
