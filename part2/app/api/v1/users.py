@@ -27,7 +27,9 @@ class UserList(Resource):
         if existing_user:
             return {'error': 'Email already registered'}, 400
         try:
-            user_data['password'] = User.hash_password(user_data['password'])
+            password = user_data['password']
+            hash_password = User.hash_password(password)
+            user_data['password'] = hash_password
             new_user = facade.create_user(user_data)
         except ValueError:
             return {'error': 'Invalid input data'}, 400

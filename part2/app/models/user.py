@@ -48,9 +48,10 @@ class User(Base):
         except EmailNotValidError as e:
             raise ValueError("Invalid email")
 
-    def hash_password(self, password):
+    @staticmethod
+    def hash_password(password):
         """Hashes the password before storing it."""
-        self.password = bcrypt.generate_password_hash(password).decode('utf-8')
+        return bcrypt.generate_password_hash(password).decode('utf-8')
 
     def verify_password(self, password):
         """Verifies if the provided password matches the hashed password."""
