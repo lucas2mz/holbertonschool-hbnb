@@ -5,3 +5,4 @@ datetime
 flask_restx
 app.services
 email-validator --break-system
+flask-bcrypt

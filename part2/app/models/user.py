@@ -1,15 +1,19 @@
 from datetime import datetime
 from .base import Base
 from email_validator import validate_email, EmailNotValidError
+from flask_bcrypt import Bcrypt
 
+
+bcrypt = Bcrypt()
 
 class User(Base):
 
-    def __init__(self, first_name: str, last_name: str, email: str, is_admin: bool = False):
+    def __init__(self, first_name: str, last_name: str, email: str, password: str, is_admin: bool = False):
         super().__init__()
         self.first_name = first_name
         self.last_name = last_name
         self.email = email
+        self.password = password
         self.is_admin = is_admin
 
     @property
@@ -43,3 +47,11 @@ class User(Base):
              self._email = email_validation.normalized
         except EmailNotValidError as e:
             raise ValueError("Invalid email")
+
+    def hash_password(self, password):
+        """Hashes the password before storing it."""
+        self.password = bcrypt.generate_password_hash(password).decode('utf-8')
+
+    def verify_password(self, password):
+        """Verifies if the provided password matches the hashed password."""
+        return bcrypt.check_password_hash(self.password, password)
