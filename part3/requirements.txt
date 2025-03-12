@@ -4,6 +4,6 @@ uuid
 datetime
 flask_restx
 app.services
-email-validator --break-system
+email-validator
 flask-bcrypt
 flask-jwt-extended
