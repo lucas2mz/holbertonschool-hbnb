@@ -16,13 +16,15 @@ class ReviewList(Resource):
     @api.expect(review_model)
     @api.response(201, 'Review successfully created')
     @api.response(400, 'Invalid input data')
+    @jwt_required()
     def post(self):
         """Register a new review"""
+        current_user = get_jwt_identity()
         review_data = api.payload
         existing_review = facade.get_review(review_data['text'])
         if existing_review:
             return {"Error": "Review already exist"}, 400
-        
+
         user = facade.get_user(review_data['user_id'])
         if not user:
             return {"Error": "User not found"}, 404
@@ -30,6 +32,13 @@ class ReviewList(Resource):
         place = facade.get_place(review_data['place_id'])
         if not place:
             return {"Error": "Place not found"}, 404
+
+        if place.owner.id == user.id:
+            return {"Error": "You cannot review your own place."}, 400
+
+        review_checker = facade.get_review_by_user_and_place(user.id, place.id)
+        if review_checker:
+            return {"Error": "You have already reviewed this place."}, 400
         
         review_data.pop('user_id')
         review_data.pop('place_id')
@@ -65,13 +74,22 @@ class ReviewResource(Resource):
     @api.response(200, 'Review updated successfully')
     @api.response(404, 'Review not found')
     @api.response(400, 'Invalid input data')
+    @jwt_required()
     def put(self, review_id):
         """Update a review's information"""
         data = api.payload
 
+        current_user = get_jwt_identity()
+
         review = facade.review_repo.get(review_id)
         if not review:
             return {'Error': 'Review not found'}, 404
+
+        user_id = review.user.id
+
+        if user_id != current_user:
+            return {"Error": "Unauthorized action."}, 403
+
         try:
             update_review = facade.update_review(review_id, data)
         except ValueError:
