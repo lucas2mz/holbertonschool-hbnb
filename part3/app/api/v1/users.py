@@ -59,19 +59,25 @@ class UserResource(Resource):
     @jwt_required()
     def put(self, user_id):
         """Update a User"""
-        authenticated_user_id = get_jwt_identity()
+        current_user = get_jwt_identity()
 
-        if str(authenticated_user_id) != str(user_id):
+        if current_user != user_id:
             return {"error": "Unauthorized action"}, 403
         
         data = api.payload
 
-        if "email" in data or "pasword" in data:
-            return {"error": "You cannot modify email or password"}, 400
-
         user = facade.get_user(user_id)
         if not user:
             return {'error': "User not found"}, 404
+        
+        # print(user.email)
+        # print(user.password)
+        # print(data['email'])               !!!borrar luego!!!
+        # print(data['password'])
+
+        if user.email != data['email'] or user.password != data['password']:  #Problemas con comparar passwords, una esta hasheada y la otra no, arreglar
+            return {"error": "You cannot modify email or password"}, 400
+
         try:
             user_updated = facade.update_user(user_id, data)
         except ValueError:
