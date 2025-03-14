@@ -69,13 +69,10 @@ class UserResource(Resource):
         user = facade.get_user(user_id)
         if not user:
             return {'error': "User not found"}, 404
-        
-        # print(user.email)
-        # print(user.password)
-        # print(data['email'])               !!!borrar luego!!!
-        # print(data['password'])
 
-        if user.email != data['email'] or user.password != data['password']:  #Problemas con comparar passwords, una esta hasheada y la otra no, arreglar
+        password_data = data['password']
+
+        if user.email != data['email'] or not user.verify_password(password_data):
             return {"error": "You cannot modify email or password"}, 400
 
         try:
