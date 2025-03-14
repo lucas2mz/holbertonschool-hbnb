@@ -1,7 +1,7 @@
 from flask_restx import Namespace, Resource, fields
 from app.services import facade
 from app.models.user import User
-from flask_jwt_extended import jwt_required, get_jwt_identity
+from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt 
 
 
 api = Namespace('users', description='User operations')
@@ -20,12 +20,19 @@ class UserList(Resource):
     @api.response(201, 'User successfully created')
     @api.response(400, 'Email already registered')
     @api.response(400, 'Invalid input data')
+    @api.response(403, 'Admin privileges required')
+    #@jwt_required()
     def post(self):
         """Register a new user"""
+        #current_user = get_jwt()
+        #if not current_user.get('is_admin'):
+            #return {'error': 'Admin privileges required'}, 403
+        
         user_data = api.payload
 
         # Simulate email uniqueness check (to be replaced by real validation with persistence)
         existing_user = facade.get_user_by_email(user_data['email'])
+        print(existing_user)
         if existing_user:
             return {'error': 'Email already registered'}, 400
         try:
@@ -55,10 +62,15 @@ class UserResource(Resource):
     @api.response(200, 'User is successfully updated')
     @api.response(404, 'User not found')
     @api.response(400, 'Invalid input data')
+    @api.response(403, 'Admin privileges required')
     @jwt_required()
     def put(self, user_id):
         """Update a User"""
+        admin = get_jwt()
         current_user = get_jwt_identity()
+
+        if not admin.get('is_admin'):
+            return {'error': 'Admin privileges required'}, 403
 
         if current_user != user_id:
             return {"error": "Unauthorized action"}, 403
