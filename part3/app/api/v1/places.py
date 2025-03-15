@@ -95,6 +95,8 @@ class PlaceResource(Resource):
 
         amenities = facade.amenity_repo.get_all()
 
+        reviews = facade.review_repo.get_all()
+
         response = {
             'id': place.id,
             'title': place.title,
@@ -107,10 +109,15 @@ class PlaceResource(Resource):
                 'last_name': owner.last_name,
                 'email': owner.email
             },
+            'reviews': [{
+                'id': review.id,
+                'text': review.text,
+                'rating': review.rating
+            } for review in reviews if review.place.id == place.id],
             'amenities': [{
                 'id': amenity.id,
                 'name': amenity.name
-            } for amenity in amenities if amenity.place_id == place.id]
+            } for amenity in amenities if amenity.place.id == place.id]
         }
 
         return response, 200
@@ -132,7 +139,7 @@ class PlaceResource(Resource):
         user_id = current_user.get('id')
 
         place = facade.get_place(place_id)
-        if not is_admin and place.owner_id != user_id:
+        if not is_admin and place.owner.id != user_id:
             return {'error': 'Unauthorized action'}, 403
 
         try:

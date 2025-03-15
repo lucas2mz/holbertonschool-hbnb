@@ -1,9 +1,17 @@
 from datetime import datetime
+from app import db
 from .base import Base
 from .user import User
 from .place import Place
+from sqlalchemy.orm import validates
+
 
 class Review(Base):
+
+    __tablename__ = 'reviews'
+
+    text = db.Column(db.String(500), nullable=False)
+    rating = db.Column(db.Integer, nullable=False)
 
     def __init__(self, text: str, rating: int, place: Place, user: User):
         Base.__init__(self)
@@ -11,26 +19,18 @@ class Review(Base):
         self.rating = rating
         self.place = place
         self.user = user
-
-    @property
-    def text(self):
-        return self._text
     
-    @text.setter
-    def text(self, value):
-        if not value:
+    @validates("text")
+    def validate_text(self, key, text):
+        if not text:
             raise ValueError("Content of the review is required")
-        self._text = value
-    
-    @property
-    def rating(self):
-        return self._rating
-    
-    @rating.setter
-    def rating(self, value):
-        if not (1 <= value <= 5):
+        return text
+
+    @validates("rating")
+    def validate_rating(self, key, rating):
+        if not (1 <= rating <= 5):
             raise ValueError("Reating must be between 1-5")
-        self._rating = value
+        return rating
 
     @property
     def place(self):

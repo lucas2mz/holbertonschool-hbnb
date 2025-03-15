@@ -1,9 +1,18 @@
 from datetime import datetime
+from app import db
 from .base import Base
 from app.models.user import User
+from sqlalchemy.orm import validates
 
 
 class Place(Base):
+    __tablename__ = 'places'
+
+    title = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.String(250), default=False)
+    price = db.Column(db.Float, nullable=False)
+    latitude = db.Column(db.Float, nullable=False)
+    longitude = db.Column(db.Float, nullable=False)
 
     def __init__(self, title: str, price: float, latitude: float, longitude: float, owner: User, description=None):
         super().__init__()
@@ -16,45 +25,29 @@ class Place(Base):
         self.reviews = []
         self.amenities = []
 
-    @property
-    def title(self):
-        return self._title
-    
-    @title.setter
-    def title(self, value):
-        if not value or len(value) > 100:
+    @validates("title")
+    def validate_title(self, key, title):
+        if not title or len(title) > 100:
             raise ValueError("Title is required and cannot exceed 100 characters")
-        self._title = value
+        return title
     
-    @property
-    def price(self):
-        return self._price
-    
-    @price.setter
-    def price(self, value):
-        if value <= 0:
+    @validates("price")
+    def validate_price(self, key, price):
+        if price <= 0:
             raise ValueError("Price must be a positive value")
-        self._price = value
+        return price
     
-    @property
-    def latitude(self):
-        return self._latitude
-    
-    @latitude.setter
-    def latitude(self, value):
-        if not (-90.0 <= value <= 90.0):
+    @validates("latitude")
+    def validate_latitude(self, key, latitude):
+        if not (-90.0 <= latitude <= 90.0):
             raise ValueError("Latitude must be within the range of -90.0 to 90.0")
-        self._latitude = value
-        
-    @property
-    def longitude(self):
-        return self._longitude
-    
-    @longitude.setter
-    def longitude(self, value):
-        if not (-180.0 <= value <= 180.0):
+        return latitude
+
+    @validates("longitude")
+    def validate_longitude(self, key, longitude):
+        if not (-180.0 <= longitude <= 180.0):
             raise ValueError("Longitude must be within the range of -180.0 to 180.0")
-        self._longitude = value
+        return longitude
 
     @property
     def owner(self):
