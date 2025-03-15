@@ -37,23 +37,3 @@ class Review(Base):
         if not (1 <= rating <= 5):
             raise ValueError("Reating must be between 1-5")
         return rating
-
-    @property
-    def place(self):
-        return self._place
-    
-    @place.setter
-    def place(self, value):
-        if not isinstance(value, Place):
-            raise ValueError("The Place doesn't exist")
-        self._place = value
-
-    @property
-    def user(self):
-        return self._user
-    
-    @user.setter
-    def user(self, value):
-        if not isinstance(value, User):
-            raise ValueError("The User doesn't exist")
-        self._user = value

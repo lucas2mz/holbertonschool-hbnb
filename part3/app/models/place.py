@@ -56,12 +56,6 @@ class Place(Base):
             raise ValueError("Longitude must be within the range of -180.0 to 180.0")
         return longitude
 
-    @validates("owner_id")
-    def validate_owner(self, key, value):
-        if not isinstance(value, User):
-            raise ValueError("Owner must be a valid User")
-        return value
-
     def add_review(self, review):
         self.reviews.append(review)
     
