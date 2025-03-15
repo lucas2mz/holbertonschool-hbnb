@@ -3,7 +3,8 @@ from datetime import datetime
 from .base import Base
 from email_validator import validate_email, EmailNotValidError
 from flask_bcrypt import Bcrypt
-from sqlalchemy.orm import validates
+from sqlalchemy.orm import validates, relationship
+from sqlalchemy import Table, Column, Integer, ForeignKey
 
 
 bcrypt = Bcrypt()
@@ -11,11 +12,14 @@ bcrypt = Bcrypt()
 class User(Base):
     __tablename__ = 'users'
 
+    id = Column(Integer, primary_key=True)
     first_name = db.Column(db.String(50), nullable=False)
     last_name = db.Column(db.String(50), nullable=False)
     email = db.Column(db.String(120), nullable=False, unique=True)
     password = db.Column(db.String(128), nullable=False)
     is_admin = db.Column(db.Boolean, default=False)
+    places = relationship('Place', back_populates='owner')
+    reviews = relationship('Review', back_populates='user')
 
     def __init__(self, first_name: str, last_name: str, email: str, password: str, is_admin: bool = False):
         super().__init__()
@@ -46,10 +50,6 @@ class User(Base):
             raise ValueError("Invalid email format")
     
     @validates("password")
-    # def validate_password(self, key, password):
-    #     hashed_password = self.hash_password(password)
-    #     return hashed_password
-
     def validate_password(self, key, password):
         """Hashes the password before storing it."""
         return bcrypt.generate_password_hash(password).decode('utf-8')

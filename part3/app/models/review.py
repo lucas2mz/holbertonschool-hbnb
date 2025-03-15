@@ -3,15 +3,21 @@ from app import db
 from .base import Base
 from .user import User
 from .place import Place
-from sqlalchemy.orm import validates
+from sqlalchemy.orm import validates, relationship
+from sqlalchemy import Table, Column, Integer, ForeignKey
 
 
 class Review(Base):
 
     __tablename__ = 'reviews'
 
+    id = Column(Integer, primary_key=True)
     text = db.Column(db.String(500), nullable=False)
     rating = db.Column(db.Integer, nullable=False)
+    place_id = Column(Integer, ForeignKey('places.id'), nullable=False)
+    place = relationship('Place', back_populates='reviews')
+    user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
+    user = relationship('User', back_populates='reviews')
 
     def __init__(self, text: str, rating: int, place: Place, user: User):
         Base.__init__(self)
