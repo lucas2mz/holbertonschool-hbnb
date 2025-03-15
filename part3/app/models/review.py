@@ -11,7 +11,7 @@ class Review(Base):
 
     __tablename__ = 'reviews'
 
-    id = Column(Integer, primary_key=True)
+    id = db.Column(db.String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
     text = db.Column(db.String(500), nullable=False)
     rating = db.Column(db.Integer, nullable=False)
     place_id = Column(Integer, ForeignKey('places.id'), nullable=False)

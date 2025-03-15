@@ -12,7 +12,7 @@ bcrypt = Bcrypt()
 class User(Base):
     __tablename__ = 'users'
 
-    id = Column(Integer, primary_key=True)
+    id = db.Column(db.String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
     first_name = db.Column(db.String(50), nullable=False)
     last_name = db.Column(db.String(50), nullable=False)
     email = db.Column(db.String(120), nullable=False, unique=True)
@@ -27,7 +27,7 @@ class User(Base):
         self.last_name = last_name
         self.email = email
         self.password = password
-        self.is_admin = is_admin
+        self.is_admin = int(is_admin)
 
     @validates("first_name")
     def validate_first_name(self, key, first_name):
