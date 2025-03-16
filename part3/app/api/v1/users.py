@@ -65,14 +65,13 @@ class UserResource(Resource):
     @jwt_required()
     def put(self, user_id):
         """Update a User"""
-        admin = get_jwt()
-        current_user = get_jwt_identity()
+        current_user = get_jwt()
 
-        if not admin.get('is_admin'):
-            return {'error': 'Admin privileges required'}, 403
+        is_admin = current_user.get('is_admin', False)
+        current_user_id = current_user.get('id')
 
-        if current_user != user_id:
-            return {"error": "Unauthorized action"}, 403
+        if not is_admin and current_user_id != user_id:
+            return {'error': 'Unauthorized action'}, 403
         
         data = api.payload
 
@@ -82,7 +81,7 @@ class UserResource(Resource):
 
         password_data = data['password']
 
-        if user.email != data['email'] or not user.verify_password(password_data):
+        if not is_admin and (user.email != data['email'] or not user.verify_password(password_data)):
             return {"error": "You cannot modify email or password"}, 400
 
         try:

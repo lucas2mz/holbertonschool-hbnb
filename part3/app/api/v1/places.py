@@ -117,7 +117,7 @@ class PlaceResource(Resource):
             'amenities': [{
                 'id': amenity.id,
                 'name': amenity.name
-            } for amenity in amenities if amenity.place.id == place.id]
+            } for amenity in amenities if amenity.places == place.id]
         }
 
         return response, 200
