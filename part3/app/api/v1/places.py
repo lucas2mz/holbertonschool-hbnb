@@ -89,7 +89,7 @@ class PlaceResource(Resource):
         if not place:
             return {'error': 'Place not found'}, 404
         
-        owner = place.owner.id
+        owner = facade.get_user(place.owner.id)
         
         if not owner:
             return {'error': 'Owner not found'}, 404

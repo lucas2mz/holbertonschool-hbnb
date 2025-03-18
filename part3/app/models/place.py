@@ -5,6 +5,7 @@ from app.models.user import User
 from sqlalchemy.orm import validates, relationship
 from sqlalchemy import Table, Column, Integer, ForeignKey
 from app.models.amenity import place_amenity
+import uuid
 
 
 class Place(Base):
