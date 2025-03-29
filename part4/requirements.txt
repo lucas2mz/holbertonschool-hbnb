@@ -10,3 +10,4 @@ flask-jwt-extended
 sqlalchemy
 flask-sqlalchemy
 mysqlclient
+flask-cors
