@@ -1,0 +1,12 @@
+flask
+flask-restx
+uuid
+datetime
+flask_restx
+app.services
+email-validator
+flask-bcrypt
+flask-jwt-extended
+sqlalchemy
+flask-sqlalchemy
+mysqlclient
