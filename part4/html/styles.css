@@ -1,38 +1,142 @@
-/* 
-  This is a SAMPLE File to get you started. Follow the instructions on the project to complete the tasks. 
-  You'll probably need to override some of theese styles.
-*/
-
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: 'Times New Roman', Times, serif, sans-serif;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif, sans-serif;
 }
 
 body {
-    background-color: #f4f4f4;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
     color: #333;
+    line-height: 1.6;
+    font-size: 18px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 header {
-    background-color: #333;
+    background-color: #2d2d2d;
     color: #fff;
-    padding: 1rem;
+    padding: 24px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+nav {
+    background-color: #1f1f1f;
+    padding: 16px;
+    text-align: left;
 }
 
 nav a {
     color: #fff;
     text-decoration: none;
-    margin-left: 1rem;
+    margin: 0;
+    font-size: 19px;
+    font-weight: 500;
+}
+
+nav a:hover {
+    color: #f8c032;
 }
 
 main {
-    padding: 2rem;
-}
-.place-card, .review-card {
-    margin: 20px;
-    padding: 10px;
-    border: 1px solid #ddd;
+    padding: 3rem 5%;
+    background-color: #ffffff;
     border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.place-card, .review-card {
+    margin: 20px 0;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 20px;
+    border: 1px solid #ddd;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.place-card:hover, .review-card:hover {
+    transform: translateX(-10px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.place-card {
+    background: linear-gradient(250deg, rgb(205, 63, 120), #009dff);
+    color: #fff;
+}
+
+.review-card {
+    background-color: #f8f8f8;
+    border-left: 5px solid #ff0066;
+}
+
+.review-card h3 {
+    color: #000000;
+    font-size: 19px;
+}
+.place-info {
+    margin: 20px 0;
+    text-align: left;
+    font-size: 20px;
+}
+.place-info-title {
+    text-align: left;
+    font-size: 55px;
+    margin-bottom: -5px;
+}
+.place-section{
+    background-color: #ffffff;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-direction: row-reverse;
+}
+.text-content {
+    flex: 1;
+    text-align: left;
+}
+.place-image img{
+    border-radius: 8px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #f8c032;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 18px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #e6b129;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 16px;
+    border: 1px solid #ccc9c9;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+input:focus, textarea:focus {
+    border-color: #f8c032;
+    outline: none;
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    padding: 2rem;
+    text-align: center;
+    font-size: 15px;
 }
