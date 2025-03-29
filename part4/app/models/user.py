@@ -5,6 +5,7 @@ from email_validator import validate_email, EmailNotValidError
 from flask_bcrypt import Bcrypt
 from sqlalchemy.orm import validates, relationship
 from sqlalchemy import Table, Column, Integer, ForeignKey
+import uuid
 
 
 bcrypt = Bcrypt()

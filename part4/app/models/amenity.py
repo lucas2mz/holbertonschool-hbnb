@@ -3,6 +3,7 @@ from app import db
 from .base import Base
 from sqlalchemy.orm import validates, relationship
 from sqlalchemy import Table, Column, ForeignKey, Integer
+import uuid
 
 place_amenity = Table(
     'place_amenity',

@@ -5,6 +5,7 @@ from .user import User
 from .place import Place
 from sqlalchemy.orm import validates, relationship
 from sqlalchemy import Table, Column, Integer, ForeignKey
+import uuid
 
 
 class Review(Base):
