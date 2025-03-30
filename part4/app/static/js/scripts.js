@@ -42,10 +42,10 @@ async function loginUser(email, password) {
     if (!response.ok){
       let errorMessage = 'Login failed'
       try {
-        const erroData = await response.json();
-        errorMessage = erroData.message || errorMessage;
+        const errorData = await response.json();
+        errorMessage = errorData.message || errorMessage;
       }catch (err) {
-
+        console.error('Error parsing response:', err);
       }
       throw new Error(errorMessage);
     }
@@ -54,12 +54,14 @@ async function loginUser(email, password) {
     const data = await response.json()
 
     /* almacena el token JWT y asigna las cookies */
-    if (data.token) {
-      localStorage.setItem('authToken', data.token);
+    if (data.access_token) {
       document.cookie = `token=${data.access_token}; path=/`;
+      alert('Login successful');
+      window.location.href = 'index.html';
     }
-    alert('Login successful');
-    window.location.href = 'index.html';
+    else{
+      throw new Error('No token received');
+    }
   } catch (error) {
     alert(`Error: ${error.message}`);
   }
@@ -116,7 +118,7 @@ function displayPlaces(places) {
 
   places.array.forEach(place => {
     const placeArticle = document.createElement('article');
-    placeArticle.classList.add('place');
+    placeArticle.classList.add('place-card');
 
     const name = document.createElement('h3');
     name.innerHTML = place.name;
