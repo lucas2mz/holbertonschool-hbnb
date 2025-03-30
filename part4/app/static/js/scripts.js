@@ -53,7 +53,7 @@ async function loginUser(email, password) {
     /* data del usuario, si el login se realiza correctamente */
     const data = await response.json()
 
-    /* almacena el token JWT y asigna las cookies */
+    /* asigna las cookies */
     if (data.access_token) {
       document.cookie = `token=${data.access_token}; path=/`;
       alert('Login successful');
@@ -66,7 +66,7 @@ async function loginUser(email, password) {
     alert(`Error: ${error.message}`);
   }
 }
-
+// Login check
 function checkAuthentication() {
   const token = getCookie('token');
   const loginLink = document.getElementById('login-link');
@@ -79,6 +79,7 @@ function checkAuthentication() {
       fetchPlaces(token);
   }
 }
+// Funcion para obtener las cookies
 function getCookie(name) {
   // Function to get a cookie value by its name
   const cookies = document.cookie.split("; ");
@@ -141,7 +142,7 @@ function getPlaceIdFromURL() {
   const params = new URLSearchParams(window.location.search);
   return params.get('place_id');
 }
-
+// Place check
 function checkAuthentication() {
   const token = getCookie('token');
   const addReviewSection = document.getElementById('add-review');
@@ -226,4 +227,49 @@ function displayPlaceDetails(place) {
     placeDetails.appendChild(placeDiv);
     placeDetails.appendChild(placeDiv2);
   });
+}
+// Check for adding a review
+function checkAuthentication() {
+  const token = getCookie('token');
+  if (!token) {
+      window.location.href = 'index.html';
+  }
+  return token;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const reviewForm = document.getElementById('review-form');
+  const token = checkAuthentication();
+  const placeId = getPlaceIdFromURL();
+
+  if (reviewForm) {
+      reviewForm.addEventListener('submit', async (event) => {
+          event.preventDefault();
+          const formData = new FormData(reviewForm);
+          // Get review text from form
+          const reviewText = formData.get('text');
+          await submitReview(token, placeId, reviewText)
+      });
+  }
+});
+// SUBMIT REVIEW (no se si esta bien)
+async function submitReview(token, placeId, reviewText) {
+  const response = await fetch('http://127.0.0.1:5000/api/v1/reviews', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    },
+    body: JSON.stringify({ placeId, reviewText })
+  });
+  handleResponse(response);
+}
+
+function handleResponse(response) {
+  if (response.ok) {
+      alert('Review submitted successfully!');
+      // Clear the form
+  } else {
+      alert('Failed to submit review');
+  }
 }
