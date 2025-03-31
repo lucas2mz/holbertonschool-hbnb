@@ -40,7 +40,7 @@ async function loginUser(email, password) {
     });
 
     if (!response.ok){
-      let errorMessage = 'Login failed'
+      let errorMessage = 'Login failed';
       try {
         const errorData = await response.json();
         errorMessage = errorData.message || errorMessage;
@@ -51,7 +51,7 @@ async function loginUser(email, password) {
     }
 
     /* data del usuario, si el login se realiza correctamente */
-    const data = await response.json()
+    const data = await response.json();
 
     /* asigna las cookies */
     if (data.access_token) {
@@ -105,16 +105,17 @@ async function fetchPlaces(token) {
     if (!response.ok) {
       throw new Error('Failed to fetch places');
     }
+    const places = await response.json();
+    
+    displayPlaces(places);
 
-    const data = await response.json();
-  
   }catch(error) {
     alert(`Error: ${error.message}`);
   }
 }
 
 function displayPlaces(places) {
-  const placesList = document.getElementById('place-list');
+  const placesList = document.getElementById('places-list');
   placesList.innerHTML = '';
 
   places.array.forEach(place => {
@@ -130,9 +131,14 @@ function displayPlaces(places) {
     const location = document.createElement('p');
     location.innerHTML = `Location: ${place.location}`;
 
+    const button = document.createElement('button');
+    button.innerHTML = 'View Details';
+    button.classList.add('details-button');
+
     placeArticle.appendChild(name);
     placeArticle.appendChild(description);
     placeArticle.appendChild(location);
+    placeArticle.appendChild(button);
 
     placesList.appendChild(placeArticle);
   });
@@ -173,7 +179,7 @@ async function fetchPlaceDetails(token, placeId) {
 
     const place = await response.json();
 
-    return place;
+    displayPlaceDetails(place);
   
   }catch(error) {
     alert(`Error: ${error.message}`);
@@ -248,7 +254,7 @@ document.addEventListener('DOMContentLoaded', () => {
           const formData = new FormData(reviewForm);
           // Get review text from form
           const reviewText = formData.get('text');
-          await submitReview(token, placeId, reviewText)
+          await submitReview(token, placeId, reviewText);
       });
   }
 });
