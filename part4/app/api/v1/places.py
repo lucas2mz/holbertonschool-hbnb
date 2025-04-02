@@ -4,38 +4,13 @@ from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
 
 api = Namespace('places', description='Place operations')
 
-# Define the models for related entities
-amenity_model = api.model('PlaceAmenity', {
-    'id': fields.String(description='Amenity ID'),
-    'name': fields.String(description='Name of the amenity')
-})
-
-user_model = api.model('PlaceUser', {
-    'id': fields.String(description='User ID'),
-    'first_name': fields.String(description='First name of the owner'),
-    'last_name': fields.String(description='Last name of the owner'),
-    'email': fields.String(description='Email of the owner')
-})
-
-# Adding the review model
-review_model = api.model('PlaceReview', {
-    'id': fields.String(description='Review ID'),
-    'text': fields.String(description='Text of the review'),
-    'rating': fields.Integer(description='Rating of the place (1-5)'),
-    'user_id': fields.String(description='ID of the user')
-})
-
-# Define the place model for input validation and documentation
 place_model = api.model('Place', {
     'title': fields.String(required=True, description='Title of the place'),
     'description': fields.String(description='Description of the place'),
     'price': fields.Float(required=True, description='Price per night'),
     'latitude': fields.Float(required=True, description='Latitude of the place'),
     'longitude': fields.Float(required=True, description='Longitude of the place'),
-    'owner_id': fields.String(required=True, description='ID of the owner'),
-    'owner': fields.Nested(user_model, description='Owner of the place'),
-    'amenities': fields.List(fields.Nested(amenity_model), description='List of amenities'),
-    'reviews': fields.List(fields.Nested(review_model), description='List of reviews')
+    'owner_id': fields.String(required=True, description='ID of the owner')
 })
 
 @api.route('/')
@@ -46,7 +21,6 @@ class PlaceList(Resource):
     @jwt_required()
     def post(self):
         """Register a new place"""
-
         current_user = get_jwt_identity()
 
         place_data = api.payload
@@ -88,7 +62,6 @@ class PlaceResource(Resource):
         place = facade.get_place(place_id)
         if not place:
             return {'error': 'Place not found'}, 404
-        
         owner = facade.get_user(place.owner.id)
         
         if not owner:
@@ -150,3 +123,21 @@ class PlaceResource(Resource):
             return {'error': 'Invalid input data'}, 400
 
         return {"message": "Place updated successfully"}, 200
+    
+    @api.response(200, 'Place deleted successfully')
+    @api.response(404, 'Place not found')
+    @jwt_required()
+    def delete(self, place_id):
+        """Delete a place"""
+        current_user = get_jwt_identity()
+        place = facade.get_place(place_id)
+        if not place:
+            return {"error": "Review not found"}, 404
+
+        user_id = place.owner.id
+
+        if user_id != current_user:
+            return {"error": "Unauthorized action"}, 403
+        place = facade.delete_place(place_id)
+        
+        return {"message": "Place deleted successfully"}, 200

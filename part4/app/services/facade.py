@@ -52,7 +52,11 @@ class HBnBFacade:
         return self.amenity_repo.update(amenity_id, amenity_data)
     
     def create_place(self, place_data):
+        print(place_data)
+        print(place_data['owner'])
         place = Place(**place_data)
+        print(place.owner.first_name) # No llega a aca
+        print(place.owner.email)
         self.place_repo.add(place)
         return place
 
@@ -91,3 +95,6 @@ class HBnBFacade:
 
     def delete_review(self, review_id):
         return self.review_repo.delete(review_id)
+    
+    def delete_place(self, place_id):
+        return self.place_repo.delete(place_id)

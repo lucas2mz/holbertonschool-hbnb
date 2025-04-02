@@ -9,7 +9,6 @@ api = Namespace('reviews', description='Review operations')
 review_model = api.model('Review', {
     'text': fields.String(required=True, description='Text of the review'),
     'rating': fields.Integer(required=True, description='Rating of the place (1-5)'),
-    'user_id': fields.String(required=True, description='ID of the user'),
     'place_id': fields.String(required=True, description='ID of the place')
 })
 
@@ -27,7 +26,7 @@ class ReviewList(Resource):
         if existing_review:
             return {"Error": "Review already exist"}, 400
 
-        user = facade.get_user(review_data['user_id'])
+        user = facade.get_user(current_user)
         if not user:
             return {"Error": "User not found"}, 404
         
@@ -42,7 +41,6 @@ class ReviewList(Resource):
         if review_checker:
             return {"Error": "You have already reviewed this place."}, 400
         
-        review_data.pop('user_id')
         review_data.pop('place_id')
 
         review_data['user'] = user
@@ -87,7 +85,7 @@ class ReviewResource(Resource):
         if not review:
             return {'Error': 'Review not found'}, 404
 
-        user_id = review.user.id
+        user_id = current_user
 
         if user_id != current_user:
             return {"Error": "Unauthorized action."}, 403

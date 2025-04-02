@@ -102,7 +102,8 @@ main {
     text-align: left;
 }
 .place-image img{
-    border-radius: 8px;
+    width: 20px;
+    height: 20px;
 }
 
 button {

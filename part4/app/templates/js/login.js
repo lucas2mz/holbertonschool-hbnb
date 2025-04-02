@@ -49,4 +49,3 @@ async function loginUser(email, password) {
     alert(`Error: ${error.message}`);
   }
 }
-
