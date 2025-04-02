@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function loginUser(email, password) {
   try {
-    const response = await fetch('https://your-api-url/login', {
+    const response = await fetch('http://127.0.0.1:5000/api/v1/auth/login', {
       method: 'POST',
       headers: {
           'Content-Type': 'application/json'
@@ -36,7 +36,8 @@ async function loginUser(email, password) {
     // Handle the response
     if (response.ok) {
       const data = await response.json();
-      document.cookie = `token=${data.access_token}; path=/`;
+      localStorage.setItem("token", data.access_token);
+      alert('Login successful');
       window.location.href = 'index.html';
   } else {
       alert('Login failed: ' + response.statusText);
