@@ -44,63 +44,61 @@ function displayPlaceDetails(place) {
   const placeDetails = document.getElementById('place-details');
   placeDetails.innerHTML = '';
 
-  place.forEach(place => {
-    const placeDiv = document.createElement('div');
-    placeDiv.classList.add('place-section');
+  const placeArticle = document.createElement('article');
+  placeArticle.classList.add('place-section');
 
-    const placeDiv2 = document.createElement('div');
-    placeDiv2.classList.add('text-content');
+  const placeArticle2 = document.createElement('article');
+  placeArticle2.classList.add('text-content');
 
-    const title = document.createElement('h2');
-    title.classList.add('place-info-title');
-    title.innerHTML = place.title;
+  const title = document.createElement('h2');
+  title.classList.add('place-info-title');
+  title.innerHTML = place.title;
 
-    const host = document.createElement('p');
-    host.classList.add('place-info');
-    host.innerHTML = `Host: ${place.owner.first_name}`;
+  const host = document.createElement('p');
+  host.classList.add('place-info');
+  host.innerHTML = `Host: ${place.owner.first_name}`;
 
-    const price = document.createElement('p');
-    price.classList.add('place-info');
-    price.innerHTML = `Price per night: ${place.price}`;
+  const price = document.createElement('p');
+  price.classList.add('place-info');
+  price.innerHTML = `Price per night: ${place.price}`;
 
-    const description = document.createElement('p');
-    description.classList.add('place-info');
-    description.innerHTML = `Description: ${place.description}`;
+  const description = document.createElement('p');
+  description.classList.add('place-info');
+  description.innerHTML = `Description: ${place.description}`;
 
-    const amenities = document.createElement('p');
-    amenities.classList.add('place-info');
-    amenities.innerHTML = `Amenities: ${place.amenities}`;
+  const amenities = document.createElement('p');
+  amenities.classList.add('place-info');
+  amenities.innerHTML = `Amenities: ${place.amenities}`;
 
-    if (place.reviews) {
-      const reviews = document.createElement('p');
-      reviews.classList.add('place-info');
-      reviews.innerHTML = `Reviews: ${place.reviews}`;
-      placeArticle.appendChild(reviews);
-    }
+  const image = document.createElement('img');
+  image.classList.add('place-image');
+  image.src = `./images/houses/house5.png`;
+  image.width = 600;
+  image.height = 450;
 
-    placeDiv2.appendChild(title);
-    placeDiv2.appendChild(host);
-    placeDiv2.appendChild(price);
-    placeDiv2.appendChild(description);
-    placeDiv2.appendChild(amenities);
+  placeArticle2.appendChild(title);
+  placeArticle2.appendChild(host);
+  placeArticle2.appendChild(price);
+  placeArticle2.appendChild(description);
+  placeArticle2.appendChild(amenities);
+  placeArticle2.appendChild(image);
 
-    placeDetails.appendChild(placeDiv);
-    placeDetails.appendChild(placeDiv2);
-  });
+  placeDetails.appendChild(placeArticle);
+  placeDetails.appendChild(placeArticle2);
 }
 
 checkAuthentication();
 
-// Check for adding a review
-function checkAuthentication() {
-  const token = localStorage.getItem('token');
+// // Check for adding a review
+// function checkAuthentication() {
+//   const token = localStorage.getItem('token');
 
-  if (token) {
-    return token;
-  } else{
-    window.location.href = 'index.html';
-  }
-}
+//   if (token) {
+//     return token;
+//   } else{
+//     window.location.href = 'index.html';
+//   }
+// }
 
 document.addEventListener('DOMContentLoaded', () => {
   const reviewForm = document.getElementById('review-form');

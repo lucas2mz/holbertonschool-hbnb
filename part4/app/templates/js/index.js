@@ -84,6 +84,7 @@ function displayPlaces(places) {
     div.appendChild(image);
 
     const button = document.createElement('button');
+    button.setAttribute('data-place-id', place.id);
     button.innerHTML = 'View Details';
     button.classList.add('details-button');
 
@@ -97,5 +98,12 @@ function displayPlaces(places) {
     placesList.appendChild(placeArticle);
   });
 }
+
+document.getElementById('places-list').addEventListener('click', event => {
+    if (event.target.classList.contains('details-button')) {
+      const placeId = event.target.getAttribute('data-place-id');
+      window.location.href = `place.html?place_id=${placeId}`;
+    }
+  });
 
 checkAuthentication();
