@@ -15,6 +15,7 @@ function checkAuthentication() {
       const placeId = getPlaceIdFromURL();
       fetchPlaceDetails(token, placeId);
   }
+  return token
 }
 
 async function fetchPlaceDetails(token, placeId) {
@@ -47,8 +48,8 @@ function displayPlaceDetails(place) {
   const placeArticle = document.createElement('article');
   placeArticle.classList.add('place-section');
 
-  const placeArticle2 = document.createElement('article');
-  placeArticle2.classList.add('text-content');
+  const placeDiv = document.createElement('div');
+  placeDiv.classList.add('text-content');
 
   const title = document.createElement('h2');
   title.classList.add('place-info-title');
@@ -76,29 +77,16 @@ function displayPlaceDetails(place) {
   image.width = 600;
   image.height = 450;
 
-  placeArticle2.appendChild(title);
-  placeArticle2.appendChild(host);
-  placeArticle2.appendChild(price);
-  placeArticle2.appendChild(description);
-  placeArticle2.appendChild(amenities);
-  placeArticle2.appendChild(image);
+  placeDiv.appendChild(title);
+  placeDiv.appendChild(host);
+  placeDiv.appendChild(price);
+  placeDiv.appendChild(description);
+  placeDiv.appendChild(amenities);
+  placeDiv.appendChild(image);
 
   placeDetails.appendChild(placeArticle);
-  placeDetails.appendChild(placeArticle2);
+  placeDetails.appendChild(placeDiv);
 }
-
-checkAuthentication();
-
-// // Check for adding a review
-// function checkAuthentication() {
-//   const token = localStorage.getItem('token');
-
-//   if (token) {
-//     return token;
-//   } else{
-//     window.location.href = 'index.html';
-//   }
-// }
 
 document.addEventListener('DOMContentLoaded', () => {
   const reviewForm = document.getElementById('review-form');
@@ -116,14 +104,14 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 // SUBMIT REVIEW (corregir)
-async function submitReview(token, placeId, reviewText, userId, rating) {
+async function submitReview(token, placeId, reviewText, rating) {
   const response = await fetch('http://127.0.0.1:5000/api/v1/reviews', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`
     },
-    body: JSON.stringify({ placeId, reviewText, userId, rating })
+    body: JSON.stringify({ place_id: placeId, text: reviewText, rating })
   });
   handleResponse(response);
 }
@@ -136,3 +124,5 @@ function handleResponse(response) {
       alert('Failed to submit review');
   }
 }
+
+checkAuthentication();
