@@ -1,3 +1,29 @@
+
+
+// Login check
+function checkAuthentication() {
+  const token = localStorage.getItem('token');
+  // const loginLink = document.getElementById('login-button');
+  // const logoutLink = document.getElementsById('logout-button');
+
+  if (token) {
+    // loginLink.style.display = 'none';
+    // logoutLink.style.display = 'block';
+    fetchPlaces(token);
+  } else {
+    // loginLink.style.display = 'block'
+    // logoutLink.style.display = 'none'
+    window.location.href = "login.html"
+  }
+}
+
+const logoutButton = document.getElementById('logout-button');
+logoutButton.addEventListener('click', event => {
+  localStorage.clear();
+  window.location.href = 'login.html';
+  alert('Successful logout');
+})
+
 document.getElementById('price-filter').addEventListener('change', (event) => {
   const selectedPrice = event.target.value;
   const places = document.querySelectorAll('.place-card');
@@ -12,17 +38,6 @@ document.getElementById('price-filter').addEventListener('change', (event) => {
     }
   });
 });
-
-// Login check
-function checkAuthentication() {
-  const token = localStorage.getItem('token');
-
-  if (token) {
-    fetchPlaces(token);
-  } else {
-    window.location.href = "/login.html"
-  }
-}
 
 async function fetchPlaces(token) {
   // Make a GET request to fetch places data
@@ -48,52 +63,24 @@ async function fetchPlaces(token) {
 
 // index
 function displayPlaces(places) {
-  
   const placesList = document.getElementById('places-list');
   placesList.innerHTML = '';
 
   const srcArray = ['house1.jpg', 'house2.jpg', 'house3.jpg', 'house4.jpg', 'house5.png', 'house6.jpg', 'house7.png'];
 
-  places.forEach(place => {
+  places.forEach((place, index) => {
     const placeArticle = document.createElement('article');
     placeArticle.classList.add('place-card');
-    placeArticle.setAttribute('data-place-price', place.price);
+    placeArticle.dataset.placePrice = place.price;
 
-    const title = document.createElement('h3');
-    title.innerHTML = place.title;
-
-    const price = document.createElement('p');
-    price.classList.add('data-price');
-    price.innerHTML = `Price per night: $${place.price}`;
-
-    const description = document.createElement('p');
-    description.innerHTML = place.description;
-
-    const location = document.createElement('p');
-    location.innerHTML = `Location: ${place.longitude}, ${place.latitude}`; // Cambiar a x,y
-
-    const div = document.createElement('div');
-
-    const image = document.createElement('img');
-    image.classList.add('place-image');
-    const src = srcArray[places.indexOf(place)];
-    image.src = `./images/houses/${src}`;
-    image.width = 600;
-    image.height = 450;
-
-    div.appendChild(image);
-
-    const button = document.createElement('button');
-    button.setAttribute('data-place-id', place.id);
-    button.innerHTML = 'View Details';
-    button.classList.add('details-button');
-
-    placeArticle.appendChild(title);
-    placeArticle.appendChild(price);
-    placeArticle.appendChild(description);
-    placeArticle.appendChild(location);
-    placeArticle.appendChild(div);
-    placeArticle.appendChild(button);
+    placeArticle.innerHTML = `
+      <h3>${place.title}</h3>
+      <p class="data-price">Price per night: $${place.price}</p>
+      <p>${place.description}</p>
+      <p>Location: ${place.longitude}, ${place.latitude}</p>
+      <div><img class="place-image" src="./images/houses/${srcArray[index]}" width="600" height="450"></div>
+      <button class="details-button" data-place-id="${place.id}">View Details</button>
+    `;
 
     placesList.appendChild(placeArticle);
   });

@@ -86,6 +86,8 @@ class PlaceResource(Resource):
             },
             'reviews': [{
                 'id': review.id,
+                'first_name': review.user.first_name,
+                'last_name': review.user.last_name,
                 'text': review.text,
                 'rating': review.rating
             } for review in reviews if review.place.id == place.id],

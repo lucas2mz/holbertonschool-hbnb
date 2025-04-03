@@ -45,47 +45,49 @@ function displayPlaceDetails(place) {
   const placeDetails = document.getElementById('place-details');
   placeDetails.innerHTML = '';
 
+
   const placeArticle = document.createElement('article');
   placeArticle.classList.add('place-section');
+
+  let reviewsHTML = '<h3 class="place-review">Reviews</h3><br>';
+
+  if (place.reviews && place.reviews.length > 0){
+    reviewsHTML += '<dl class="review-card">';
+    place.reviews.forEach(review => {
+      reviewsHTML += `
+          <dt>${review.first_name} ${review.last_name}</dt>
+          <dd>${review.rating = "★".repeat(review.rating)}</dd>
+          <dd>${review.text}</dd>
+      `;
+    });
+    reviewsHTML += '</dl>'
+  }else {
+    reviewsHTML = '<h1><strong>This Place dont have any reviews yet.</strong></h1><br>'
+  }
 
   const placeDiv = document.createElement('div');
   placeDiv.classList.add('text-content');
 
-  const title = document.createElement('h2');
-  title.classList.add('place-info-title');
-  title.innerHTML = place.title;
+  placeDiv.innerHTML = `
+    <h2 class="place-info-title">${place.title}</h2>
+    <p class="place-info">Host: ${place.owner.first_name} ${place.owner.last_name}</p>
+    <p class="place-info">Price per night: $${place.price}</p>
+    <p class="place-info">Description: ${place.description}</p>
+  `;
 
-  const host = document.createElement('p');
-  host.classList.add('place-info');
-  host.innerHTML = `Host: ${place.owner.first_name}`;
+  const reviews = document.createElement('p');
+  reviews.innerHTML = `
+    ${reviewsHTML}
+  `;
 
-  const price = document.createElement('p');
-  price.classList.add('place-info');
-  price.innerHTML = `Price per night: ${place.price}`;
+  const placeDiv2 = document.createElement('div');
+  placeDiv2.classList.add('place-image');
+  placeDiv2.innerHTML = `<img src="./images/houses/house5.png" width="600" height="450">`;
 
-  const description = document.createElement('p');
-  description.classList.add('place-info');
-  description.innerHTML = `Description: ${place.description}`;
-
-  const amenities = document.createElement('p');
-  amenities.classList.add('place-info');
-  amenities.innerHTML = `Amenities: ${place.amenities}`;
-
-  const image = document.createElement('img');
-  image.classList.add('place-image');
-  image.src = `./images/houses/house5.png`;
-  image.width = 600;
-  image.height = 450;
-
-  placeDiv.appendChild(title);
-  placeDiv.appendChild(host);
-  placeDiv.appendChild(price);
-  placeDiv.appendChild(description);
-  placeDiv.appendChild(amenities);
-  placeDiv.appendChild(image);
-
+  placeDiv.appendChild(placeDiv2);
+  placeDiv.appendChild(reviews)
+  placeArticle.appendChild(placeDiv);
   placeDetails.appendChild(placeArticle);
-  placeDetails.appendChild(placeDiv);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -97,14 +99,15 @@ document.addEventListener('DOMContentLoaded', () => {
       reviewForm.addEventListener('submit', async (event) => {
           event.preventDefault();
           const formData = new FormData(reviewForm);
-          const reviewText = formData.get('text');
+          const reviewText = formData.get('review-text');
           const rating = formData.get('rating');
           await submitReview(token, placeId, reviewText, rating);
       });
   }
 });
-// SUBMIT REVIEW (corregir)
+// SUBMIT REVIEW 
 async function submitReview(token, placeId, reviewText, rating) {
+  rating = parseInt(rating, 10);
   const response = await fetch('http://127.0.0.1:5000/api/v1/reviews', {
     method: 'POST',
     headers: {
@@ -119,7 +122,6 @@ async function submitReview(token, placeId, reviewText, rating) {
 function handleResponse(response) {
   if (response.ok) {
       alert('Review submitted successfully!');
-      // Clear the form
   } else {
       alert('Failed to submit review');
   }

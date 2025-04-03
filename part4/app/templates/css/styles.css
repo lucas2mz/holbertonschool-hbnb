@@ -102,8 +102,13 @@ main {
     text-align: left;
 }
 .place-image img{
-    width: 20px;
-    height: 20px;
+    width: 600px;
+    height: 450px;
+}
+.place-review {
+    text-align: left;
+    font-size: 55px;
+    margin-bottom: -5px;
 }
 
 button {
