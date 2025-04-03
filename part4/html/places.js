@@ -18,19 +18,15 @@ function checkAuthentication() {
 
 async function fetchPlaceDetails(token, placeId) {
     try {
-        const request = await fetch('http://127.0.0.1:5000/api/v1/places/', {
+        const request = await fetch(`http://127.0.0.1:5000/api/v1/places/${placeId}`, {
             headers: {
+                'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             }
         });
         if (request.ok) {
-            const places = await request.json();
-            const place = places.find(p => p.id === placeId);
-            if (place) {
-                displayPlaceDetails(place);
-            } else {
-                console.error('Place not found');
-            }
+            const place = await request.json();
+            displayPlaceDetails(place);
         }
     } catch (error) {
         console.error('Error fetching place details:', error);
@@ -50,7 +46,7 @@ function displayPlaceDetails(place) {
 
     const host = document.createElement('p');
     host.classList.add('place-host');
-    host.innerHTML = `Hosted by: ${place.host}`;
+    host.innerHTML = `Hosted by: ${place.owner.first_name} ${place.owner.last_name}`;
 
     const price = document.createElement('p');
     price.classList.add('place-price');
