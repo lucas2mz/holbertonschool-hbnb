@@ -1,13 +1,19 @@
 function checkAuthentication() {
     const token = localStorage.getItem('token');
-    const loginLink = document.getElementById('login-link');
-
+  
     if (token) {
-        fetchPlaces(token);
+      fetchPlaces(token);
     } else {
-        window.location.href = 'login.html';
+      window.location.href = "login.html"
     }
-}
+  }
+
+const logoutButton = document.getElementById('logOut-button');
+logoutButton.addEventListener('click', event => {
+localStorage.clear();
+window.location.href = 'login.html';
+alert('Successful logout');
+})
 
 async function fetchPlaces(token) {
     console.log(token);
