@@ -91,3 +91,6 @@ class HBnBFacade:
 
     def delete_review(self, review_id):
         return self.review_repo.delete(review_id)
+    
+    def delete_place(self, place_id):
+        return self.place_repo.delete(place_id)

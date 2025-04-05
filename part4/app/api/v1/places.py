@@ -125,3 +125,21 @@ class PlaceResource(Resource):
             return {'error': 'Invalid input data'}, 400
 
         return {"message": "Place updated successfully"}, 200
+
+    @api.response(200, 'Place deleted successfully')
+    @api.response(404, 'Place not found')
+    @jwt_required()
+    def delete(self, place_id):
+        """Delete a place"""
+        current_user = get_jwt_identity()
+        place = facade.get_place(place_id)
+        if not place:
+            return {"error": "Review not found"}, 404
+
+      ##  user_id = place.owner.id
+
+        ##if user_id != current_user:
+          ##  return {"error": "Unauthorized action"}, 403
+        place = facade.delete_place(place_id)
+        
+        return {"message": "Place deleted successfully"}, 200
